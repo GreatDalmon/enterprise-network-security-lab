@@ -1,149 +1,90 @@
+# Enterprise Network & Security Lab
 
-# Enterprise Network 
+A multi-phase enterprise networking and security project built in **Cisco Packet Tracer**. The project covers network design, VLAN segmentation, inter-VLAN routing, infrastructure services, network security, testing, troubleshooting, and documentation.
 
-## Overview
-
-This project documents the design, implementation, and security of a simulated enterprise network. Beginning with a Cisco Packet Tracer environment, the project is being developed in phases to replicate the technologies and practices commonly found in modern enterprise infrastructures.
-
-The objective is not only to build a functional network but also to understand the reasoning behind each design decision, document the deployment process, and progressively introduce enterprise services and security controls.
+The project was developed as a practical environment for building networking and cybersecurity skills.
 
 ---
 
-## Project Objectives
+## 🎯 Project Aim
 
-* Design a scalable enterprise network architecture.
-* Implement network segmentation using VLANs.
-* Configure inter-VLAN routing.
-* Deploy centralized network services.
-* Apply enterprise security best practices.
-* Simulate real-world IT administration and troubleshooting.
-* Build a cybersecurity testing environment for defensive and offensive security practice.
+The aim of this project was to design and implement a functional enterprise network, secure the infrastructure, validate the security controls, and create a documented foundation for future cybersecurity testing.
+
+The project follows:
+
+**Network Design → Implementation → Services → Security → Validation → Future Cybersecurity Testing**
 
 ---
 
-## Technologies
+## 🏗️ Network Overview
 
-### Networking
+The network uses a hierarchical design consisting of:
 
-* Cisco Packet Tracer
-* Cisco IOS
-* VLANs
-* Router-on-a-Stick
-* DHCP
-* DNS
-* HTTP
-* FTP
-* SMTP / POP3
+- Cisco 1941 Router
+- Core switch
+- HR access switch
+- Sales access switch
+- IT access switch
+- Infrastructure server
+- Multiple client PCs
 
-### Virtualization *(Planned)*
+### VLAN Structure
 
-* VMware Workstation
+| VLAN | Department | Network | Gateway |
+|---|---|---|---|
+| 10 | HR | `192.168.10.0/24` | `192.168.10.1` |
+| 20 | Sales | `192.168.20.0/24` | `192.168.20.1` |
+| 30 | IT | `192.168.30.0/24` | `192.168.30.1` |
+| 99 | Server / Management | `192.168.99.0/24` | `192.168.99.1` |
 
-### Operating Systems *(Planned)*
-
-* Windows Server
-* Windows 11
-* Ubuntu Linux
-* Kali Linux
-
-### Security *(Planned)*
-
-* Access Control Lists (ACLs)
-* Port Security
-* SSH
-* Active Directory
-* Group Policy
-* Vulnerability Assessment
-* Network Enumeration
-* Packet Analysis
-* Security Monitoring
+Inter-VLAN routing is provided using **Router-on-a-Stick**.
 
 ---
 
-# Project Roadmap
+## 🌐 Network Services
 
-## Phase 1 – Enterprise Network ✅
+The infrastructure server provides:
 
-* Enterprise topology
-* VLAN segmentation
-* Inter-VLAN routing
-* Centralized infrastructure services
-* Network validation
+- DHCP
+- DNS
+- HTTP
+- FTP
+- SMTP
+- POP3
 
----
-
-## Phase 2 – Network Security *(In Progress)*
-
-* Access Control Lists
-* Port Security
-* Secure device management (SSH)
-* Management VLAN
-* Device hardening
-* Network documentation
+DHCP relay was configured on the router so clients across the departmental VLANs could receive addresses from the central server.
 
 ---
 
-## Phase 3 – Enterprise Infrastructure *(Planned)*
+## 🔐 Security Implementation
 
-* VMware deployment
-* Windows Server installation
-* Active Directory
-* DNS & DHCP migration
-* Domain-joined client machines
-* Group Policy management
+Security was introduced after the core network was operational.
 
----
+### SSH
 
-## Phase 4 – Cybersecurity Lab *(Planned)*
+- SSH version 2 enabled
+- Local user authentication
+- VTY access restricted to SSH
+- Telnet disabled
+- Management access tested
 
-The completed enterprise network will become the target environment for cybersecurity practice.
+### Port Security
 
-This phase will introduce:
+Department access ports were configured with:
 
-* Kali Linux
-* Network reconnaissance
-* Vulnerability scanning
-* Secure network configuration
-* Basic penetration testing
-* Defensive hardening
-* Security validation
+- Access mode
+- Maximum of one MAC address
+- Sticky MAC learning
+- Violation mode set to `restrict`
+- PortFast
 
-The goal is to understand both **how enterprise networks are built** and **how they are secured**.
+Port-security violations were deliberately tested and verified.
 
----
+### Access Control List
 
-# Documentation
+An extended ACL named `BLOCK-HR-SALES` was implemented to prevent direct communication between HR and Sales.
 
-Each phase includes:
-
-* Network diagrams
-* Configuration summaries
-* Validation tests
-* Challenges encountered
-* Solutions implemented
-* LinkedIn project updates
-
-This allows the project to serve as both a technical portfolio and a learning journal.
-
----
-
-# Final Goal
-
-The end goal of this project is to build a realistic enterprise IT environment that combines networking, systems administration, virtualization, and cybersecurity into a single documented portfolio.
-
-Rather than completing isolated labs, this project follows the lifecycle of a real enterprise deployment—from designing the network and deploying infrastructure to securing it and validating its resilience through practical cybersecurity exercises.
-
----
-
-## Skills Demonstrated
-
-* Enterprise Network Design
-* VLAN Configuration
-* Inter-VLAN Routing
-* Infrastructure Services
-* Cisco IOS Administration
-* Network Troubleshooting
-* Systems Administration *(Planned)*
-* Active Directory *(Planned)*
-* Enterprise Security *(Planned)*
-* Cybersecurity Fundamentals *(Planned)*
+```text
+deny ip 192.168.10.0 0.0.0.255 192.168.20.0 0.0.0.255
+deny ip 192.168.20.0 0.0.0.255 192.168.10.0 0.0.0.255
+permit ip any any

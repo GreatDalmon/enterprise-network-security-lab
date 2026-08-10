@@ -1,0 +1,51 @@
+! R1-CORE - Day 3 Security Configuration
+!
+hostname R1-CORE
+!
+service password-encryption
+enable secret <existing-enable-secret>
+username admin privilege 15 secret <existing-admin-secret>
+!
+ip domain-name staria.local
+ip ssh version 2
+!
+line con 0
+ exec-timeout 5 0
+ login local
+!
+line vty 0 4
+ exec-timeout 5 0
+ login local
+ transport input ssh
+!
+! VLAN gateways
+interface GigabitEthernet0/0.10
+ encapsulation dot1Q 10
+ ip address 192.168.10.1 255.255.255.0
+ ip helper-address 192.168.99.2
+ ip access-group BLOCK-HR-SALES in
+!
+interface GigabitEthernet0/0.20
+ encapsulation dot1Q 20
+ ip address 192.168.20.1 255.255.255.0
+ ip helper-address 192.168.99.2
+ ip access-group BLOCK-HR-SALES in
+!
+interface GigabitEthernet0/0.30
+ encapsulation dot1Q 30
+ ip address 192.168.30.1 255.255.255.0
+ ip helper-address 192.168.99.2
+!
+interface GigabitEthernet0/0.99
+ encapsulation dot1Q 99
+ ip address 192.168.99.1 255.255.255.0
+!
+! ACL - blocks direct HR/Sales communication
+ip access-list extended BLOCK-HR-SALES
+ deny ip 192.168.10.0 0.0.0.255 192.168.20.0 0.0.0.255
+ deny ip 192.168.20.0 0.0.0.255 192.168.10.0 0.0.0.255
+ permit ip any any
+!
+banner motd ^CUNAUTHORIZED ACCESS PROHIBITED - STARIA INC.^C
+!
+end

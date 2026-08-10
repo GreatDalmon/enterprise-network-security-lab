@@ -1,0 +1,24 @@
+! HR-SW1 - Day 3 Security Configuration
+!
+hostname HR-SW1
+!
+service password-encryption
+username admin privilege 15 secret <existing-admin-secret>
+ip domain-name staria.local
+ip ssh version 2
+!
+line vty 0 4
+ login local
+ transport input ssh
+!
+! HR endpoint ports
+interface range FastEthernet0/2 - 4
+ switchport mode access
+ switchport access vlan 10
+ switchport port-security
+ switchport port-security maximum 1
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+!
+end

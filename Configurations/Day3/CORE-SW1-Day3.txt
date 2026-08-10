@@ -1,0 +1,32 @@
+! CORE-SW1 - Day 3 Security Configuration
+!
+hostname CORE-SW1
+!
+service password-encryption
+username admin privilege 15 secret <existing-admin-secret>
+ip domain-name staria.local
+ip ssh version 2
+!
+line con 0
+ login local
+!
+line vty 0 4
+ login local
+ transport input ssh
+!
+! Management SVI
+interface Vlan99
+ ip address 192.168.99.3 255.255.255.0
+ no shutdown
+!
+! VLANs
+vlan 10
+ name HR
+vlan 20
+ name SALES
+vlan 30
+ name IT
+vlan 99
+ name MANAGEMENT
+!
+end

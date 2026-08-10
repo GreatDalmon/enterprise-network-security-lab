@@ -1,0 +1,31 @@
+# SRV1-INFRA Configuration
+
+IP Address
+192.168.10.2
+
+Gateway
+192.168.10.1
+
+DNS
+Enabled
+
+Records
+www.staria.com
+mail.staria.com
+ftp.staria.com
+
+DHCP Pools
+
+192.168.10.100-199
+
+FTP
+Enabled
+
+HTTP
+Enabled
+
+SMTP
+Enabled
+
+POP3
+Enabled

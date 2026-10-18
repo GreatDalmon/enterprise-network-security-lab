@@ -12,7 +12,7 @@ The aim of this project was to design and implement a functional enterprise netw
 
 The project follows:
 
-**Network Design → Implementation → Services → Security → Validation → Future Cybersecurity Testing**
+**Network Design → Implementation → Services → Security → Validation → **
 
 ---
 

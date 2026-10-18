@@ -1,5 +1,5 @@
 # Enterprise Network & Security Lab
-
+![Network topology](Screenshots/your-topology-file.png)
 A multi-phase enterprise networking and security project built in **Cisco Packet Tracer**. The project covers network design, VLAN segmentation, inter-VLAN routing, infrastructure services, network security, testing, troubleshooting, and documentation.
 
 The project was developed as a practical environment for building networking and cybersecurity skills.
